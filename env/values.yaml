@@ -1,14 +1,31 @@
-expose:
-  Args: 
-    - --v
-    - 4
-  Annotations:
-    helm.sh/hook: post-install,post-upgrade
-    helm.sh/hook-delete-policy: hook-succeeded
-
+PipelineSecrets:
+  DockerConfig: '{"auths":{"registry.ng.bluemix.net":{"auth":"dG9rZW46ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnFkR2tpT2lJeVpERTVaRFEzTVMwNU1UVXhMVFV5WldZdFlXUTRNaTFrTldWaU5qUTBaVFZqWTJJaUxDSnBjM01pT2lKeVpXZHBjM1J5ZVM1dVp5NWliSFZsYldsNExtNWxkQ0o5LjRHM0RlZndhMnFRNFQyeERPRTRUMlBLcXpjZHhUNjdtUHlIQk80czFRY3M="}}}'
 cleanup:
-  Args: 
-    - --cleanup
   Annotations:
     helm.sh/hook: pre-delete
     helm.sh/hook-delete-policy: hook-succeeded
+  Args:
+  - --cleanup
+controllerbuild:
+  enabled: true
+controllerworkflow:
+  enabled: false
+dockerRegistry: registry.ng.bluemix.net
+expose:
+  Annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded
+  Args:
+  - --v
+  - 4
+  config:
+    domain: jgarwdc06.us-east.containers.appdomain.cloud
+    exposer: Ingress
+    http: "true"
+jenkins:
+  Servers:
+    Global:
+      EnvVars:
+        TILLER_NAMESPACE: kube-system
+  enabled: false
+prow: {}
